@@ -26,7 +26,7 @@ class HomePage(BasePage):
         self.search_input.press("Enter")
         try:
             self.page.wait_for_url(
-                r".*(search|catalog|q=).*",
+                re.compile(r"search|catalog|q=", re.I),
                 timeout=45_000,
                 wait_until="domcontentloaded",
             )

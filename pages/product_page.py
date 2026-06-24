@@ -1,3 +1,5 @@
+import re
+
 from playwright.sync_api import Page, expect
 
 from fixtures.test_data import SELECTORS
@@ -12,7 +14,7 @@ class ProductPage(BasePage):
         self.price_label = page.locator('[class*="price"], .pdp-price').first
 
     def expect_loaded(self) -> None:
-        self.page.wait_for_url(r".*(products|-i\d+).*", timeout=45_000)
+        self.page.wait_for_url(re.compile(r"products|-i\d+", re.I), timeout=45_000)
         self.dismiss_overlays()
         expect(self.product_title).to_be_visible(timeout=30_000)
 

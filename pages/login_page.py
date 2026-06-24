@@ -1,3 +1,5 @@
+import re
+
 from playwright.sync_api import Page, expect
 
 from pages.base_page import BasePage
@@ -22,7 +24,7 @@ class LoginPage(BasePage):
 
     def expect_login_form_visible(self) -> None:
         try:
-            self.page.wait_for_url(r".*(login|signin|account).*", timeout=20_000)
+            self.page.wait_for_url(re.compile(r"login|signin|account", re.I), timeout=20_000)
         except Exception:
             pass
         phone_visible = False

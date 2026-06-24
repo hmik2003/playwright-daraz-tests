@@ -1,3 +1,5 @@
+import re
+
 from playwright.sync_api import Page, expect
 
 from pages.base_page import BasePage
@@ -21,7 +23,7 @@ class CartPage(BasePage):
         self.dismiss_overlays()
 
     def expect_cart_page_loaded(self) -> None:
-        self.page.wait_for_url(r".*cart.*", timeout=20_000)
+        self.page.wait_for_url(re.compile(r"cart", re.I), timeout=20_000)
         heading_visible = False
         try:
             heading_visible = self.cart_heading.is_visible(timeout=10_000)
@@ -31,4 +33,4 @@ class CartPage(BasePage):
         assert heading_visible or url_matches
 
     def expect_cart_accessible(self) -> None:
-        expect(self.page).to_have_url(r".*(cart|daraz\.pk).*")
+        expect(self.page).to_have_url(re.compile(r"cart|daraz\.pk", re.I))
