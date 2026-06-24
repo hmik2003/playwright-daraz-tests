@@ -15,6 +15,7 @@ export const SELECTORS = {
     'button:has-text("Add to Cart"), button:has-text("ADD TO CART"), [class*="pdp-button_theme_orange"], [data-qa-locator="add-to-cart"]',
   cartIcon: '.cart-icon, [class*="cart"], a[href*="cart"]',
   loginLink: 'a[href*="login"], .login-link, :text("Login")',
+  logoLink: 'a:has(img[alt*="Daraz"]), img[alt*="Daraz.PK Logo"]',
 } as const;
 
 export const TIMEOUTS = {

@@ -9,7 +9,7 @@ test.describe('Daraz Homepage @smoke', () => {
     await homePage.expectLoaded();
   });
 
-  test('should display Daraz logo', async ({ homePage }) => {
+  test('should display Daraz logo link in header', async ({ homePage }) => {
     await homePage.expectLogoVisible();
   });
 

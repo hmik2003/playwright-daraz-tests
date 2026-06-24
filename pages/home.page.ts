@@ -4,9 +4,6 @@ import { SELECTORS } from '../fixtures/test-data';
 
 export class HomePage extends BasePage {
   private readonly searchInput = this.page.locator(SELECTORS.searchInput).first();
-  private readonly logo = this.page
-    .locator('a.lzd-logo img, .lzd-logo-content img, img[alt*="Daraz"]')
-    .first();
   private readonly loginLink = this.page.locator(SELECTORS.loginLink).first();
 
   async open() {
@@ -38,6 +35,7 @@ export class HomePage extends BasePage {
   }
 
   async expectLogoVisible() {
-    await expect(this.logo).toBeVisible({ timeout: 20_000 });
+    const logoLink = this.page.getByRole('link', { name: /Online Shopping Daraz/i });
+    await expect(logoLink).toBeVisible({ timeout: 20_000 });
   }
 }
