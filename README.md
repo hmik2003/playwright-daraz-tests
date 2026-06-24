@@ -1,8 +1,8 @@
-# Playwright Daraz.pk Tests
+# Playwright Daraz.pk Tests (Python)
 
 [![Daraz E2E Tests](https://github.com/hmik2003/playwright-daraz-tests/actions/workflows/playwright.yml/badge.svg)](https://github.com/hmik2003/playwright-daraz-tests/actions/workflows/playwright.yml)
 [![Tests](https://img.shields.io/badge/tests-14%20passing-brightgreen)](https://github.com/hmik2003/playwright-daraz-tests)
-[![Playwright](https://img.shields.io/badge/Playwright-1.49-blue?logo=playwright)](https://playwright.dev)
+[![Playwright](https://img.shields.io/badge/Playwright-Python-blue?logo=playwright)](https://playwright.dev/python/)
 [![Daraz](https://img.shields.io/badge/Target-Daraz.pk-orange)](https://www.daraz.pk)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
@@ -23,42 +23,43 @@ End-to-end automation suite for **[Daraz.pk](https://www.daraz.pk)** — Pakista
 ```
 playwright-daraz-tests/
 ├── .github/workflows/     # CI with weekly scheduled smoke runs
-├── fixtures/              # Search terms, selectors, test fixtures
+├── conftest.py            # pytest fixtures
+├── fixtures/              # Search terms, selectors, test data
 ├── pages/                 # Page Object classes
-├── tests/                 # Test specifications
+├── tests/                 # pytest test modules
 ├── utils/                 # Retry & network helpers
 ├── .env.example           # Optional credentials template
-├── playwright.config.ts
-└── package.json
+├── pytest.ini
+└── requirements.txt
 ```
 
 ## Getting Started
 
 ### Prerequisites
 
-- [Node.js](https://nodejs.org/) 18+
-- npm 9+
+- Python 3.11+
+- pip
 
 ### Installation
 
 ```bash
 git clone https://github.com/hmik2003/playwright-daraz-tests.git
 cd playwright-daraz-tests
-npm install
-npx playwright install
+pip install -r requirements.txt
+playwright install
 ```
 
 ### Run Tests
 
 ```bash
 # Full suite
-npm test
+pytest --browser chromium
 
 # Smoke tests only (fast)
-npm run test:smoke
+pytest -m smoke
 
 # Headed mode (watch the browser)
-npm run test:headed
+pytest --browser chromium --headed
 ```
 
 ### Optional: Authenticated Flows
@@ -89,11 +90,13 @@ cp .env.example .env
 | Retry on failure      | Handles transient network/DOM flakiness             |
 | No hardcoded login    | OTP flow requires manual step — tests stay reliable |
 | Multi-fallback selectors | Daraz updates CSS classes frequently             |
+| getByRole for logo    | Accessible name is more stable than CSS classes     |
 
 ## Tech Stack
 
-- [Playwright](https://playwright.dev/) — browser automation
-- [TypeScript](https://www.typescriptlang.org/) — type-safe tests
+- [Playwright for Python](https://playwright.dev/python/) — browser automation
+- [pytest](https://docs.pytest.org/) — test runner
+- [pytest-playwright](https://github.com/microsoft/playwright-pytest) — browser fixtures
 - [GitHub Actions](https://github.com/features/actions) — CI/CD with weekly schedule
 
 ## License
