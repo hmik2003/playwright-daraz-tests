@@ -8,8 +8,9 @@ export class ProductPage extends BasePage {
   private readonly priceLabel = this.page.locator('[class*="price"], .pdp-price').first();
 
   async expectLoaded() {
-    await this.page.waitForURL(/products|pdp|item/i, { timeout: 30_000 }).catch(() => {});
-    await expect(this.productTitle).toBeVisible({ timeout: 25_000 });
+    await this.page.waitForURL(/products|-i\d+/i, { timeout: 45_000 });
+    await this.dismissOverlays();
+    await expect(this.productTitle).toBeVisible({ timeout: 30_000 });
   }
 
   async expectTitleNotEmpty() {
@@ -18,16 +19,16 @@ export class ProductPage extends BasePage {
   }
 
   async expectPriceVisible() {
-    await expect(this.priceLabel).toBeVisible({ timeout: 15_000 });
+    await expect(this.priceLabel).toBeVisible({ timeout: 20_000 });
   }
 
   async addToCart() {
     await this.dismissOverlays();
     await this.addToCartButton.scrollIntoViewIfNeeded();
-    await this.addToCartButton.click({ timeout: 15_000 });
+    await this.addToCartButton.click({ timeout: 20_000 });
   }
 
   async expectAddToCartAvailable() {
-    await expect(this.addToCartButton).toBeVisible({ timeout: 20_000 });
+    await expect(this.addToCartButton).toBeVisible({ timeout: 25_000 });
   }
 }

@@ -5,12 +5,15 @@ export class BasePage {
   constructor(protected readonly page: Page) {}
 
   async goto(path = '/') {
-    await this.page.goto(`${BASE_URL}${path}`, { waitUntil: 'domcontentloaded' });
+    await this.page.goto(`${BASE_URL}${path}`, {
+      waitUntil: 'domcontentloaded',
+      timeout: 45_000,
+    });
   }
 
   async dismissOverlays() {
     const closeButtons = this.page.locator(
-      '[aria-label="Close"], .modal-close, button:has-text("×"), .next-dialog-close',
+      '[aria-label="Close"], .modal-close, button:has-text("×"), .next-dialog-close, .lazada-modal-close',
     );
     const count = await closeButtons.count();
     for (let i = 0; i < count; i++) {

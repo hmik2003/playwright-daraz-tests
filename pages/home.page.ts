@@ -4,7 +4,9 @@ import { SELECTORS } from '../fixtures/test-data';
 
 export class HomePage extends BasePage {
   private readonly searchInput = this.page.locator(SELECTORS.searchInput).first();
-  private readonly logo = this.page.locator('img[alt*="Daraz"], .lzd-logo-content, [class*="logo"]').first();
+  private readonly logo = this.page
+    .locator('a.lzd-logo img, .lzd-logo-content img, img[alt*="Daraz"]')
+    .first();
   private readonly loginLink = this.page.locator(SELECTORS.loginLink).first();
 
   async open() {
@@ -14,13 +16,21 @@ export class HomePage extends BasePage {
 
   async expectLoaded() {
     await expect(this.page).toHaveURL(/daraz\.pk/);
-    await expect(this.searchInput).toBeVisible({ timeout: 20_000 });
+    await expect(this.searchInput).toBeVisible({ timeout: 30_000 });
   }
 
   async search(query: string) {
     await this.searchInput.click();
     await this.searchInput.fill(query);
     await this.searchInput.press('Enter');
+    await this.page
+      .waitForURL(/search|catalog|q=/, { timeout: 45_000, waitUntil: 'domcontentloaded' })
+      .catch(async () => {
+        const searchButton = this.page.locator(SELECTORS.searchButton).first();
+        if (await searchButton.isVisible({ timeout: 3000 }).catch(() => false)) {
+          await searchButton.click();
+        }
+      });
   }
 
   async openLogin() {
@@ -28,6 +38,6 @@ export class HomePage extends BasePage {
   }
 
   async expectLogoVisible() {
-    await expect(this.logo).toBeVisible({ timeout: 15_000 });
+    await expect(this.logo).toBeVisible({ timeout: 20_000 });
   }
 }
